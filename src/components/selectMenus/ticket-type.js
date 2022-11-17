@@ -12,12 +12,24 @@ let inputBoxs = {
             label: "Payment method?",
             placeholder: "Bitcoin, Ethereum, PayPal"
         }
-],
+    ],
     "frontend": [
         {
             id: "text",
             label: "What type of frontend",
             placeholder: "Notify..."
+        },
+        {
+            id: "payment",
+            label: "Payment method?",
+            placeholder: "Bitcoin, Ethereum, PayPal"
+        }
+    ],
+    "backend": [
+        {
+            id: "text",
+            label: "What type of backend",
+            placeholder: "Inventory..."
         },
         {
             id: "payment",
@@ -36,6 +48,40 @@ let inputBoxs = {
             label: "Payment method?",
             placeholder: "Bitcoin, Ethereum, PayPal"
         }
+    ],
+    "support": [
+        {
+            id: "text",
+            label: "Describe your problem:",
+            placeholder: "..."
+        },
+        {
+            id: "text2",
+            label: "Your options for solving the problem:",
+            placeholder: "..."
+        },
+        {
+            id: "text3",
+            label: "Comment: ",
+            placeholder: "..."
+        }
+    ],
+    "partnership": [
+        {
+            id: "text",
+            label: "Your discord server:",
+            placeholder: "..."
+        },
+        {
+            id: "text2",
+            label: "How many members are in your channel:",
+            placeholder: "..."
+        },
+        {
+            id: "text3",
+            label: "Comment: ",
+            placeholder: "..."
+        }
     ]
 }
 
@@ -44,23 +90,24 @@ module.exports = {
         name: 'ticket-type'
     },
     async execute(interaction, client){
+
+        let type = interaction.values[0];
+
         const modal = new ModalBuilder()
-            .setCustomId(`ticket-${interaction.values[0]}`)
+            .setCustomId(`ticket-${type}`)
             .setTitle('Questionnaire');
 
-        if(interaction.values[0] == 'frontend') {
-            const temp = new TextInputBuilder()
-                .setCustomId('text')
-                .setLabel('')
-                .setPlaceholder('')
+        inputBoxs[type].forEach( box => {
+            modal.addComponents(new ActionRowBuilder().addComponents(new TextInputBuilder()
+                .setCustomId(box.id)
+                .setLabel(box.label)
+                .setPlaceholder(box.placeholder)
                 .setRequired(true)
                 .setStyle(TextInputStyle.Short)
                 .setMinLength(2)
+            ))
             
-            modal.addComponents(new ActionRowBuilder().addComponents(temp))
-        }
-
-        modal.addComponents(new ActionRowBuilder().addComponents(payment))
+        })
 
         await interaction.showModal(modal)
 
