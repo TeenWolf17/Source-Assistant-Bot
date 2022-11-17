@@ -14,15 +14,15 @@ module.exports = {
         let description = interaction.options.getString('description');
 
         const emb = new EmbedBuilder()
-                .setColor(0x7B68F7)
-                .setAuthor({
-                    name: `${title}`
-                })
-                .setDescription(`${description}`)
-                .setTimestamp()
-                .setFooter({
-                    text: `Source Store`
-                })
+            .setColor(0x7B68F7)
+            .setAuthor({
+                name: `${title}`
+            })
+            .setDescription(`${description}`)
+            .setTimestamp()
+            .setFooter({
+                text: `Source Store`
+            })
 
         if(image)
             emb.setImage(image)

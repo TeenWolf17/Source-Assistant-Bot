@@ -23,6 +23,8 @@ client.channelsLists = {
     ticketDesign: '1011417273493360771',
     ticketFrontend: '1011417694488252577',
     ticketVideo: '1011417597532700722',
+    ticketSupport: '1042592610633666640',
+    ticketPartner: '1042592743261741086',
     archive: '1038221080281751603'
 }
 

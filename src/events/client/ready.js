@@ -9,5 +9,8 @@ module.exports = {
             activities: [{ name: `Source Portfolio`, type: ActivityType.Watching }],
             status: 'online',
         });
+
+        client.source = await client.users.fetch('788532733576085554');
+
     }
 }

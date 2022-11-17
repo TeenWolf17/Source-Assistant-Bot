@@ -16,7 +16,7 @@ module.exports = {
             }
         ]);
         interaction.channel.edit({parent: client.channelsLists.archive})
-        client.infoData.openTickets -= 1;
+        // client.infoData.openTickets -= 1;
         client.saveData();
         
     }
