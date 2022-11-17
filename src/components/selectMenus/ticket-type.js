@@ -25,11 +25,23 @@ let inputBoxs = {
             placeholder: "Bitcoin, Ethereum, PayPal"
         }
     ],
+    "script": [
+        {
+            id: "text",
+            label: "What type of script",
+            placeholder: "Inventory..."
+        },
+        {
+            id: "payment",
+            label: "Payment method?",
+            placeholder: "Bitcoin, Ethereum, PayPal"
+        }
+    ],
     "backend": [
         {
             id: "text",
             label: "What type of backend",
-            placeholder: "Inventory..."
+            placeholder: "..."
         },
         {
             id: "payment",
@@ -95,7 +107,12 @@ module.exports = {
 
         const modal = new ModalBuilder()
             .setCustomId(`ticket-${type}`)
-            .setTitle('Questionnaire');
+            .setTitle('Ticket・Form');
+
+        if( !inputBoxs[type] ) return await interaction.reply({
+            content: "Error!",
+            ephemeral: true
+        });
 
         inputBoxs[type].forEach( box => {
             modal.addComponents(new ActionRowBuilder().addComponents(new TextInputBuilder()
@@ -113,20 +130,3 @@ module.exports = {
 
     }
 }
-/*
-
-Questionnaire
-
-Frontend:
-    What type of frontend
-    Notify...
-
-Video:
-    What type of video
-    Carshow, Cinematic
-
-
-Payment method?
-Bitcoin, Ethereum, PayPal
-    
-*/

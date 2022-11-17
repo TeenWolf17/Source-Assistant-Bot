@@ -11,19 +11,7 @@ module.exports = {
             .setDescription(`> Choose your Category`)
             .setFooter({text: 'Source | Tickets'})
             .setColor(0x7B68F7)
-            // .setThumbnail('https://media.discordapp.net/attachments/972631423292952597/1011413903323967530/unknown.png')
             .setTimestamp(Date.now())
-            // .setDescription(`
-            // 🎨 **DESIGN** ⎼ A purchase request for a design
-
-            // 🎥 **VIDEO** ⎼ A purchase request for a video
-
-            // ⚙ **FRONTEND** ⎼ A purchase request for a frontend
-
-            // 🔧 **SUPPORT** ⎼ We will give you the help we can
-
-            // 🧩 **PARTNERSHIP** ⎼ Consider options for cooperation with you
-            // `)
             .setImage('https://cdn.discordapp.com/attachments/972631423292952597/1011413883833045122/unknown.png')
 
         const selectMenu = new SelectMenuBuilder()

@@ -1,10 +1,20 @@
 const { EmbedBuilder, Embed, ChannelType, ButtonStyle, ButtonBuilder, ActionRowBuilder, PermissionsBitField } = require('discord.js');
+const fs = require('fs');
 
 let descLists = {
     "video": {
         type: 'VIDEO',
         desc: `
             **What type of video**
+            > $$%text%$$
+            **Payment method?**
+            > $$%text2%$$
+        `
+    },
+    "script": {
+        type: 'SCRIPT',
+        desc:  `
+            **What type of script**
             > $$%text%$$
             **Payment method?**
             > $$%text2%$$
@@ -19,6 +29,15 @@ let descLists = {
             > $$%text2%$$
         `
     },
+    "frontend": {
+        type: 'BACKEND',
+        desc:  `
+            **What type of backend**
+            > $$%text%$$
+            **Payment method?**
+            > $$%text2%$$
+        `
+    },
     "design": {
         type: 'DESIGN',
         desc: `
@@ -27,15 +46,43 @@ let descLists = {
             **Payment method?**
             > $$%text2%$$
         `
-    }
+    },
+    "support": {
+        type: 'SUPPORT',
+        desc:  `
+            **Describe your problem:**
+            > $$%text%$$
+            **Your options for solving the problem:**
+            > $$%text2%$$
+            **Comment:**
+            > $$%text3%$$
+        `
+    },
+    "partnership": {
+        type: 'PARTNERSHIP',
+        desc:  `
+            **Your discord server:**
+            > $$%text%$$
+            **How many members are in your channel:**
+            > $$%text2%$$
+            **Comment:**
+            > $$%text3%$$
+        `
+    },
 }
 
 module.exports = {
-    async execute(interaction, client, {type, text, text2}){
+    async execute(interaction, client, {type, text, text2, text3}){
+
+        if(!descLists[type]) return await interaction.reply({
+            content: "Error 2!",
+            ephemeral: true
+        })
 
         let description = descLists[type].desc
             .replace("$$%text%$$", text)
             .replace("$$%text2%$$", text2)
+            .replace("$$%text3%$$", text3)
 
         const emb = new EmbedBuilder()
             .setTitle(`Ticket・${descLists[type].type}・${interaction.user.username}`)
@@ -49,11 +96,7 @@ module.exports = {
             .setLabel('Close')
             .setStyle(ButtonStyle.Danger)
 
-        // const feedback = new ButtonBuilder()
-        //     .setCustomId("stay-feedback")
-        //     .setLabel('Leave feedback')
-        //     .setStyle(ButtonStyle.Success)
-        //     .setEmoji('1038106770733793400')
+        
 
 
         let channelID;
@@ -62,9 +105,29 @@ module.exports = {
             case 'frontend':
                 channelID = client.channelsLists.ticketFrontend;
                 break;
-                
+
+            case 'script':
+                channelID = client.channelsLists.ticketScript;
+                break;
+            
+            case 'backend':
+                channelID = client.channelsLists.ticketBackend;
+                break;
+
+            case 'support':
+                channelID = client.channelsLists.ticketSupport;
+                break;
+
+            case 'partnership':
+                channelID = client.channelsLists.ticketPartner;
+                break;
+
             case 'design':
                 channelID = client.channelsLists.ticketDesign;
+                break;
+        
+            case 'video':
+                channelID = client.channelsLists.ticketVideo;
                 break;
 
             default:
@@ -107,11 +170,27 @@ module.exports = {
                         content: `Открыт новый тикет -> ${chnl}`
                     })
 
+                    let ticketsInfo = fs.readFileSync('./data/tickets.json');
+                    ticketsInfo = JSON.parse(ticketsInfo);
 
                     chnl.send({
                         content: `${source}`,
                         embeds: [emb] ,
                         components: [ new ActionRowBuilder().addComponents(button) ]
+                    }).then( ms => {
+                        ticketsInfo.push({
+                            ticketId: ticketsInfo.length + 1,
+                            channel: chnl.id,
+                            creator: interaction.user.id,
+                            type: type,
+                            msg: ms.id,
+                            description: description,
+                            orders: [],
+                            time: Date.now()
+                        })
+    
+    
+                        fs.writeFileSync('./data/tickets.json', JSON.stringify(ticketsInfo));
                     });
                 })
             })

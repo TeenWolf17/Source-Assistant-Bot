@@ -1,4 +1,5 @@
 const { EmbedBuilder, Embed } = require('discord.js');
+const fs = require('fs');
 
 
 let stars = [
@@ -60,6 +61,35 @@ module.exports = {
                 embeds: [emb] 
             });
         })
+
+        let ordersInfo = fs.readFileSync('./data/orders.json');
+        ordersInfo = JSON.parse(ordersInfo);
+
+        let order = ordersInfo.find( ord => ord.channel == interaction.channel.id);
+
+        if( order ) {
+            await interaction.channel.messages.fetch(order.endMsg).then(msg => {
+
+                const emb = new EmbedBuilder()
+                    .setTitle(`Order・Finished・${interaction.user.username}`)
+                    .setDescription(`
+                        **Order ID**
+                        > ${order.id}
+                        **Status**
+                        > Finished
+
+                        **Thanks for leaving feedback**
+                    `)
+                    .setColor(0x7B68F7)
+                    .setTimestamp(Date.now())
+
+                msg.edit({
+                    embers: [emb],
+                    content: `${interaction.user}`,
+                    components: [],
+                })
+            })
+        }
 
         await interaction.reply({
             content: 'Done',
