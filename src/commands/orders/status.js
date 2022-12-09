@@ -18,7 +18,8 @@ module.exports = {
         let ordersInfo = fs.readFileSync('./data/orders.json');
         ordersInfo = JSON.parse(ordersInfo);
 
-        let order = ordersInfo.find( ord => ord.id == orderid);
+        let orderIdx = ordersInfo.findIndex( ord => ord.id == orderid )
+        let order = ordersInfo[orderIdx];
 
         if( !order ) return await interaction.reply({
             ephemeral: true,
@@ -43,9 +44,8 @@ module.exports = {
             .setColor(0x7B68F7)
             .setTimestamp(Date.now())
         
-        ordersInfo.forEach( (i,k) => {
-            if( i.id == orderid ) i.status = status;
-        })
+        ordersInfo[orderIdx].status = status;
+        ordersInfo[orderIdx].lastupdated = Date.now();
 
         await fs.writeFileSync('./data/orders.json', JSON.stringify(ordersInfo));
 

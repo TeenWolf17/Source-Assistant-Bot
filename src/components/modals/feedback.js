@@ -62,13 +62,16 @@ module.exports = {
             });
         })
 
+        let feedbacks = fs.readFileSync('./data/feedbacks.json');
+        feedbacks = JSON.parse(feedbacks);
+
         let ordersInfo = fs.readFileSync('./data/orders.json');
         ordersInfo = JSON.parse(ordersInfo);
 
         let order = ordersInfo.find( ord => ord.channel == interaction.channel.id);
 
         if( order ) {
-            await interaction.channel.messages.fetch(order.endMsg).then(msg => {
+            await interaction.channel.messages.fetch(order.endMsg).then(async msg => {
 
                 const emb = new EmbedBuilder()
                     .setTitle(`Order・Finished・${interaction.user.username}`)
@@ -83,19 +86,27 @@ module.exports = {
                     .setColor(0x7B68F7)
                     .setTimestamp(Date.now())
 
-                msg.edit({
-                    embers: [emb],
+                await msg.edit({
+                    embeds: [emb],
                     content: `${interaction.user}`,
                     components: [],
                 })
             })
+
+            feedbacks.push({
+                order: order.id,
+                work: designer,
+                delivery: delivery,
+                support: support,
+                comment: comment
+            })
+
+            fs.writeFileSync('./data/feedbacks.json', JSON.stringify(feedbacks))
         }
 
         await interaction.reply({
             content: 'Done',
             ephemeral: true
         });
-
-
     }
 }

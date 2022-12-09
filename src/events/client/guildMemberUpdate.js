@@ -11,7 +11,7 @@ module.exports = {
                 })
                 .setDescription(`
                     👋 **Welcome to Source Store Server**
-                    ✉️  Hello ${interaction.user}. Good to see you here. I have gifts for you:
+                    ✉️  Hello ${newMember}. Good to see you here. I have gifts for you:
                     
                     \`1\` **You get a 5% discount** on your first order, place an order — <#962675127894564914>
                     \`2\` **You can get UI for free** by giving 1 boost to this server — <#979357515617800192>
@@ -20,8 +20,14 @@ module.exports = {
                 .setFooter({
                     text: `Source Store`
                 })
-                .setImage('https://variety.com/wp-content/uploads/2021/07/Rick-Astley-Never-Gonna-Give-You-Up.png')
-                .setThumbnail(interaction.user.displayAvatarURL())
+                .setThumbnail(newMember.displayAvatarURL())
+
+            newMember.guild.channels.fetch('962652959785746492').then( channel => {
+                channel.send({
+                    content: `${newMember}`,
+                    embeds: [emb]
+                })
+            })
         }
     }
 }

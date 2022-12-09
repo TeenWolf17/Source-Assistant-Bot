@@ -64,7 +64,8 @@ module.exports = {
             status: status,
             creator: ticketChannel.creator,
             time: Date.now(),
-            opened: true
+            opened: true,
+            lastupdate: Date.now()
         })
 
 

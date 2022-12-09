@@ -33,7 +33,7 @@ module.exports = {
                 **Price**
                 > $${order.price}
                 **Status**
-                > ${statusLists[order.status]}
+                > ${statusLists[order.status]} (Last update: ${new Date(order.lastupdate).toLocaleString()})
 
                 **Order ID**
                 > ${orderid}

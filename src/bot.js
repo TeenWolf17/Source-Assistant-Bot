@@ -27,6 +27,7 @@ client.channelsLists = {
     ticketBackend: '1042607104910950461',
     ticketScript: '1042607027509284974',
     ticketPartner: '1042592743261741086',
+    ticketBot: '1044753237720444968',
     archive: '1038221080281751603'
 }
 

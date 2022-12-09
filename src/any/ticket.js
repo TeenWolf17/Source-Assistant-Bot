@@ -69,6 +69,15 @@ let descLists = {
             > $$%text3%$$
         `
     },
+    "bot": {
+        type: "BOT",
+        desc:  `
+            **Type of BOT:**
+            > $$%text%$$
+            **Payment:**
+            > $$%text2%$$
+        `
+    }
 }
 
 module.exports = {
@@ -130,16 +139,15 @@ module.exports = {
                 channelID = client.channelsLists.ticketVideo;
                 break;
 
+            case 'bot':
+                channelID = client.channelsLists.ticketBot;
+                break;
+
             default:
                 channelID = client.channelsLists.ticketVideo;
                 break;
         } 
         
-            
-        
-        
-        let source = await client.users.fetch('788532733576085554');
-
         await client.channels.fetch(channelID)
             .then( channel => {
                 channel.guild.channels.create({
@@ -166,7 +174,7 @@ module.exports = {
                         ephemeral: true
                     });
 
-                    source.send({
+                    client.source.send({
                         content: `Открыт новый тикет -> ${chnl}`
                     })
 
@@ -174,7 +182,7 @@ module.exports = {
                     ticketsInfo = JSON.parse(ticketsInfo);
 
                     chnl.send({
-                        content: `${source}`,
+                        content: `${client.source}`,
                         embeds: [emb] ,
                         components: [ new ActionRowBuilder().addComponents(button) ]
                     }).then( ms => {
@@ -195,8 +203,8 @@ module.exports = {
                 })
             })
         
-        // client.infoData.totalTickets += 1;
-        // client.infoData.openTickets += 1;
-        // client.saveData()
+        client.infoData.totalTickets += 1;
+        client.infoData.openTickets += 1;
+        client.saveData()
     }
 }

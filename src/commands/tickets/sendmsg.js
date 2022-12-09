@@ -21,6 +21,14 @@ module.exports = {
             .setPlaceholder('Select the ticket category')
             .setOptions(
                 new SelectMenuOptionBuilder({
+                    label: 'BOT',
+                    description: 'A purchase request for a Discord Bot',
+                    emoji: {
+                        name: '🤖',
+                    },
+                    value: 'bot'
+                }),
+                new SelectMenuOptionBuilder({
                     label: 'SCRIPT',
                     description: 'DESIGN + FRONTEND + BACKEND',
                     emoji: {

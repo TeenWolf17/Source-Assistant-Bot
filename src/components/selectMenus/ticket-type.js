@@ -61,6 +61,18 @@ let inputBoxs = {
             placeholder: "Bitcoin, Ethereum, PayPal"
         }
     ],
+    "bot": [
+        {
+            id: "text",
+            label: "What type of bot",
+            placeholder: "Giveaways, Economy ..."
+        },
+        {
+            id: "payment",
+            label: "Payment method?",
+            placeholder: "Bitcoin, Ethereum, PayPal"
+        }
+    ],
     "support": [
         {
             id: "text",
